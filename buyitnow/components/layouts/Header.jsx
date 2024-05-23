@@ -1,9 +1,14 @@
-import React from "react";
+'use client'
+import React, { useContext } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Search from "./Search";
-
+import CartContext from "@/context/CartContext";
+import { useSession } from "next-auth/react";
 const Header = () => {
+  const {data} = useSession()
+  // console.log(data)
+  const {cart} = useContext(CartContext)
   return (
     <header className="bg-white py-2 border-b">
       <div className="container max-w-screen-xl mx-auto px-4">
@@ -25,18 +30,20 @@ const Header = () => {
               href="/cart"
               className="px-3 py-2 inline-block text-center text-gray-700 bg-white shadow-sm border border-gray-200 rounded-md hover:bg-gray-100 hover:border-gray-300"
             >
-              <i className="text-gray-400 w-5 fa fa-shopping-cart"></i>
-              <span className="hidden lg:inline ml-1">
-                Cart (<b>0</b>)
+              <span className="text-gray-400 w-5 fa fa-shopping-cart"></span>
+              <span className=" lg:inline ml-1">
+                Cart (<b>{cart?.cartItems?.length || 0}</b>)
               </span>
             </Link>
-            <Link
+            {
+              data?.user ? <></>: <Link
               href="/login"
               className="px-3 py-2 inline-block text-center text-gray-700 bg-white shadow-sm border border-gray-200 rounded-md hover:bg-gray-100 hover:border-gray-300"
             >
               <i className="text-gray-400 w-5 fa fa-user"></i>
-              <span className="hidden lg:inline ml-1">Sign in</span>
+              <span className=" lg:inline ml-1">Sign in</span>
             </Link>
+            }
             <Link href="/me">
               <div className="flex items-center mb-4 space-x-3 mt-4 cursor-pointer">
                 <Image
@@ -47,9 +54,9 @@ const Header = () => {
                 />
                 <div className="space-y-1 font-medium">
                   <p>
-                    Abdullah
+                    {data?.user? data.user.name.substring(0,10) : "Log in/Sign up"}
                     <time className="block text-sm text-gray-500 dark:text-gray-400">
-                      test@gmail.com
+                    {data?.user? data.user.email : ""}
                     </time>
                   </p>
                 </div>

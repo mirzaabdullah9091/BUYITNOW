@@ -1,9 +1,11 @@
 'use client'
-import React, { useRef } from 'react'
+import React, { useContext, useRef } from 'react'
 import StarRatings from 'react-star-ratings'
 import Image from 'next/image'
 import BreadCrumbs from '../layouts/BreadCrumbs'
+import CartContext from '@/context/CartContext'
 const Productdetails = ({product}) => {
+  const {addItemToCart} = useContext(CartContext)
     const imgref= useRef(null)
     function setImgPrev(url){
         imgref.current.src = url;
@@ -12,6 +14,17 @@ const Productdetails = ({product}) => {
   
     const inStock = product?.stock >=1;
 
+    const addToCartHandler = () =>{
+      addItemToCart({
+        product : product._id,
+        name : product.name,
+        price : product.price,
+        image : product.images[0],
+        seller : product.seller,
+        stock : product.stock,
+      })
+
+    }
     const breadCrumbs = [
         {name:"Home", url:"/"},
         {
@@ -88,8 +101,11 @@ const Productdetails = ({product}) => {
               <p className="mb-4 text-gray-500">{product?.description}</p>
 
               <div className="flex flex-wrap gap-2 mb-5">
-                <button className="px-4 py-2 inline-block text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700">
-                  <i className="fa fa-shopping-cart mr-2"></i>
+                <button className="px-4 py-2 inline-block text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700"
+                 onClick={addToCartHandler}
+                 disabled={!inStock}>
+                  <i className="fa fa-shopping-cart mr-2"
+                 ></i>
                   Add to cart
                 </button>
               </div>
