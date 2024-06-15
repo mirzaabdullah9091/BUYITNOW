@@ -18,7 +18,7 @@ export const authOptions = {
                 if (!userfound)
                     throw new Error("Email is not registered!")
                 const passwordMatch = await bcrypt.compare(password, userfound.password);
-                var role = userfound.role;
+                
                 if (!passwordMatch)
                     throw new Error("Incorrect password or Email");
                 return userfound;
@@ -27,21 +27,26 @@ export const authOptions = {
         })
     ],
     callbacks: {
-        jwt: async ({ user, token }) => {
-            if (user) {
+        async jwt({ user, token, trigger, session }) {
+            if (trigger === "update" && session?.user) {
+                // console.log(session)
+                // Note that session can be any arbitrary object, remember to validate it!
+                token.user = { ...token.user, ...session.user }; // Merge updated session user data
+            } else if (user) {
                 token.user = user;
                 token.uid = user.id;
-                token.exp = Math.floor(Date.now() / 1000) + 5 * 60; // Token expiration time (1 hour)
-                
+                token.exp = Math.floor(Date.now() / 1000) + 5 * 60; // Token expiration time (5 minutes)   
             }
             return token;
         },
-        session: async ({ session, token }) => {
+        session: async ({ session, token, }) => {
             
             if (session?.user && token?.uid) {
                 session.user = token.user;
                 session.user.id = token.uid;
+                delete session?.user?.password;
             }
+          
             return session;
         },
 

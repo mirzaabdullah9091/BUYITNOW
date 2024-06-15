@@ -8,7 +8,7 @@ import CartContext from "@/context/CartContext";
 import Image from "next/image";
 
 const Cart = () => {
-  const { addItemToCart, deleteCartItems, cart } = useContext(CartContext);
+  const { addItemToCart, deleteCartItems, cart, saveOnCheckout } = useContext(CartContext);
 
   const increaseQty = (cartItem) => {
     const newQty = cartItem?.quantity + 1;
@@ -37,6 +37,15 @@ const Cart = () => {
 
   const totalAmount = (Number(amountWithoutTax) + Number(taxAmount)).toFixed(2);
 
+  const checkoutHandler = () => {
+    const data = {
+      amount: amountWithoutTax,
+      tax: taxAmount,
+      totalAmount,
+    };
+
+    saveOnCheckout(data);
+  };
   return (
     <>
       <section className="py-5 sm:py-7 bg-blue-100">
@@ -48,14 +57,14 @@ const Cart = () => {
       </section>
 
       {cart?.cartItems?.length > 0 && (
-        <section className="py-10">
+        <section  className="py-10">
           <div className="container max-w-screen-xl mx-auto px-4">
             <div className="flex flex-col md:flex-row gap-4">
               <main className="md:w-3/4">
                 <article className="border border-gray-200 bg-white shadow-sm rounded mb-5 p-3 lg:p-5">
-                  {cart?.cartItems?.map((cartItem) => (
+                  {cart?.cartItems?.map((cartItem, index) => (
                     <div>
-                      <div className="flex flex-wrap lg:flex-row gap-5  mb-4">
+                      <div key={index} className="flex flex-wrap lg:flex-row gap-5  mb-4">
                         <div className="w-full lg:w-2/5 xl:w-2/4">
                           <figure className="flex leading-5">
                             <div>
@@ -160,9 +169,12 @@ const Cart = () => {
                     </li>
                   </ul>
 
-                  <a className="px-4 py-3 mb-2 inline-block text-lg w-full text-center font-medium text-white bg-green-600 border border-transparent rounded-md hover:bg-green-700 cursor-pointer">
+                  <a className="px-4 py-3 mb-2 inline-block text-lg w-full text-center font-medium text-white bg-green-600 border border-transparent rounded-md hover:bg-green-700 cursor-pointer"
+                    onClick={checkoutHandler}
+                  >
                     Continue
                   </a>
+
 
                   <Link
                     href="/"

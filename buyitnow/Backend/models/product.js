@@ -2,33 +2,33 @@ import { data } from "autoprefixer";
 import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema({
-    name:{
-        type:String,
-        required:[true,"Please enter product name"]
+    name: {
+        type: String,
+        required: [true, "Please enter product name"]
     },
-    description:{
-        type:String,
-        required:[true, "Please enter product details"]
+    description: {
+        type: String,
+        required: [true, "Please enter product details"]
     },
-    price:{
-        type:Number,
-        required:[true, "Please enter product price"]
+    price: {
+        type: Number,
+        required: [true, "Please enter product price"]
     },
-    images:[
+    images: [
         {
-            public_id:{
+            public_id: {
                 type: String
             },
-            url:{
-                type:String
+            url: {
+                type: String
             }
         }
     ],
-    category:{
-        type:String,
-        required:[true, "Please enter product category"],
-        enum:{
-            values:[
+    category: {
+        type: String,
+        required: [true, "Please enter product category"],
+        enum: {
+            values: [
                 "Electronics",
                 "Cameras",
                 "Laptops",
@@ -36,38 +36,49 @@ const productSchema = new mongoose.Schema({
                 "Headphones",
                 "Sports"
             ],
-            message:"Please select correct category"
+            message: "Please select correct category"
 
         }
     },
-    seller:{
-        type:String,
-        required:[true, "Please enter product seller"]
+    seller: {
+        type: String,
+        required: [true, "Please enter product seller"]
     },
-    stock:{
-        type:Number,
-        required:[true, "Please enter product stock"]
+    stock: {
+        type: Number,
+        required: [true, "Please enter product stock"]
     },
-    rating:{
-        type:Number,
-        default:0
+    rating: {
+        type: Number,
+        default: 0
     },
-    reviews:[
+    reviews: [
         {
-            rating:{
-                type:Number,
+            user: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "User",
+                required: false
+            },
+            rating: {
+                type: Number,
                 required: true
             },
-            comment:{
-                type:String,
+            comment: {
+                type: String,
                 required: true
             },
-            createdAt:{
+            createdAt: {
                 type: Date,
                 default: Date.now
             }
-        }
-    ]
-},{timestamps:true})
+        },
 
-export default mongoose.models.Product || mongoose.model('Product',productSchema)
+    ],
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: false
+    }
+}, { timestamps: true })
+
+export default mongoose.models.Product || mongoose.model('Product', productSchema)

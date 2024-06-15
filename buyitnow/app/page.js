@@ -2,7 +2,7 @@
 import Listproducts from "@/components/products/Listproducts";
 import axios from "axios";
 import React from "react";
-import queryString from "query-string";
+
 const getProducts = async (filters, limit, page) => {
   try {
     let res = await axios.get(`${process.env.HOST_URL}/api/products?filters=${filters}&limit=${limit}&page=${page}`);

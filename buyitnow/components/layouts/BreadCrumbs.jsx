@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 const BreadCrumbs = ({breadCrumb}) => {
-    console.log(breadCrumb)
+    // console.log(breadCrumb)
   return (
     <section className="py-5 sm:py-7 bg-blue-100">
     <div className="container max-w-screen-xl mx-auto px-4">
@@ -16,8 +16,9 @@ const BreadCrumbs = ({breadCrumb}) => {
             </Link>
             {breadCrumb?.length - 1 !== index && (
               <i className="ml-3 text-gray-400 fa fa-chevron-right"></i>
-            )}
+            )}/
           </li>
+        
         ))}
       </ol>
     </div>

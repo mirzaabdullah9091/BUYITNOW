@@ -11,7 +11,7 @@ import { useSession } from "next-auth/react";
 
 const NewAddress = () => {
  
-  const {data:session} = useSession()
+
   const countriesList = Object.values(countries);
 
   const [street, setStreet] = useState("");
@@ -34,8 +34,7 @@ const NewAddress = () => {
       country,
     
     };
-   
-      newAddress.user = session?.user._id;
+ 
       // console.log(newAddress)
       await axios.post(`${process.env.HOST_URL}/api/address`,newAddress )
       .then((res)=>{

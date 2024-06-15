@@ -29,12 +29,13 @@ export async function POST(req) {
     
     try {
         await runMiddleware(req, res, isAuthenticatedUser);
-        console.log(req.user)
+        // console.log(req.user)
         dbConnect();
         let data = await req.json()
         if (!data) {
             throw new Error("Please enter information");
         }
+        data.user = req.user
         if(!data.user){
             throw new Error("Please login first to access this form!")    
         }

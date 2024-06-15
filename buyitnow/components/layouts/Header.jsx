@@ -48,7 +48,7 @@ const Header = () => {
               <div className="flex items-center mb-4 space-x-3 mt-4 cursor-pointer">
                 <Image
                   className="w-10 h-10 rounded-full"
-                  src={"/images/default.png"}
+                  src={data?.user? data.user.avatar.url: "/images/default.png"}
                   height={40}
                   width={40}
                 />

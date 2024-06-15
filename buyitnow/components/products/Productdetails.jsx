@@ -1,11 +1,16 @@
 'use client'
-import React, { useContext, useRef } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import StarRatings from 'react-star-ratings'
 import Image from 'next/image'
 import BreadCrumbs from '../layouts/BreadCrumbs'
+// import { cookies } from 'next/headers'
 import CartContext from '@/context/CartContext'
-const Productdetails = ({product}) => {
+import NewReview from '../review/NewReview'
+import axios from 'axios'
+import Reviews from '../review/Reviews'
+const Productdetails = ({product, CanReview}) => {
   const {addItemToCart} = useContext(CartContext)
+  const[canreview, setCanreview] =useState()
     const imgref= useRef(null)
     function setImgPrev(url){
         imgref.current.src = url;
@@ -33,7 +38,16 @@ const Productdetails = ({product}) => {
         }
     ]
 
-    // console.log(product)
+useEffect(()=>{
+  isUserReview()
+  
+  
+},[])
+ 
+async function isUserReview(){
+  let userReview = await CanReview(product._id)
+  setCanreview(userReview || false)
+}  
   return (
    <>
    <BreadCrumbs breadCrumb={breadCrumbs}/>
@@ -136,7 +150,7 @@ const Productdetails = ({product}) => {
             </main>
           </div>
 
-          {/* <NewReview /> */}
+         {canreview && <NewReview product={product} />} 
           <hr />
           
 
@@ -144,7 +158,7 @@ const Productdetails = ({product}) => {
             <h1 className="text-gray-500 review-title mb-6 mt-10 text-2xl">
               Other Customers Reviews
             </h1>
-            {/* <Reviews /> */}
+            <Reviews reviews={product?.reviews} />
        </div>
     </div>
 

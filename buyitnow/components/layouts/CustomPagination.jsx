@@ -8,6 +8,7 @@ const CustomPagination = ({resPerpage, productCount}) => {
   let page = searchParams.get('page') || 1;
   page = Number(page)
   let queryParams;
+  // console.log(resPerpage,productCount)
   const handlePageChange = (currentPage) => {
     if (typeof window !== "undefined") {
       queryParams = new URLSearchParams(window.location.search);
@@ -19,7 +20,7 @@ const CustomPagination = ({resPerpage, productCount}) => {
       }
 
       const path = window.location.pathname + "?" + queryParams.toString();
-      console.log("path", path);
+      // console.log("path", path);
       router.push(path);
     }
   };

@@ -1,11 +1,17 @@
 "use client";
 
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const Sidebar = () => {
+  const {data:session} = useSession()
+  const[userRole, setUserRole] = useState("")
+  useEffect(()=>{
+    setUserRole(session?.user?.role);
+  },[session])
+  // console.log(userRole)
     const router = useRouter()
   const logoutHandler = () => {
     signOut();
@@ -15,7 +21,9 @@ const Sidebar = () => {
   return (
     <aside className="md:w-1/3 lg:w-1/4 px-4">
       <ul className="sidebar">
-        <>
+        {
+          userRole === "admin" &&(
+            <>
           <li>
             {" "}
             <Link
@@ -59,6 +67,8 @@ const Sidebar = () => {
           <hr />
         </>
 
+          )
+        }
         <li>
           {" "}
           <Link

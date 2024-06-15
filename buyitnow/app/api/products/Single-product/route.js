@@ -9,7 +9,7 @@ export async function GET(request) {
         throw new Error("Something went wrong")
     }
     try {
-        let getproduct = await product.findById(id)
+        let getproduct = await product.findById(id).populate("user")
         // console.log(getproduct)
         if(!getproduct){
             throw new Error("Product not found")

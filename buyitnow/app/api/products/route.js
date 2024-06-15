@@ -2,17 +2,7 @@ import { NextResponse } from "next/server";
 import dbConnect from "@/Backend/Config/dbConnet";
 import product from "@/Backend/models/product";
 import queryString from "query-string";
-export async function POST(request) {
-    dbConnect()
-    let data = await request.json()
-    // console.log(data)
-    if (data) {
-        let newproduct = await product.create(data)
-        // console.log(newproduct)
-    }
 
-    return NextResponse.json("Done")
-}
 export async function GET(request) {
     dbConnect()
     let data = await request.nextUrl.searchParams
@@ -59,9 +49,9 @@ export async function GET(request) {
         if(!getproduct)
             throw new Error("Book not found!")
         let documents = await product.countDocuments(FilterApply)
-        console.log(documents)
+        // console.log(documents)
        
-        return NextResponse.json({success:true, products:getproduct, CountedProducts:documents})
+        return NextResponse.json({success:true, products:getproduct, CountedProducts:documents, resPerPage: limit})
     } catch (error) {
         return NextResponse.json({success:false, error:error},{status:404})
     }
