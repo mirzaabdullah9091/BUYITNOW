@@ -33,7 +33,7 @@ export async function GET(req) {
         let skip = query.get("page") || 0;
         const resPerPage = 10;
         let skipped = resPerPage * (skip - 1)
-        
+    
      
         const orderCount = await order.countDocuments();
        

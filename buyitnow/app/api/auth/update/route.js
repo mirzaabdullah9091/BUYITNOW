@@ -5,8 +5,6 @@ import { destorys, uploads } from "@/Backend/utils/cloudinary";
 import { isAuthenticatedUser } from "@/Backend/middlewares/auth";
 
 
-
-
 const runMiddleware = (req, res, fn) => {
 
     return new Promise((resolve, reject) => {
