@@ -4,9 +4,28 @@ import address from "@/Backend/models/address";
 import { isAuthenticatedUser } from "@/Backend/middlewares/auth";
 
 
+const runMiddleware = (req, res, fn) => {
+
+    return new Promise((resolve, reject) => {
+        fn(req, res, (result) => {
+            if (result instanceof Error) {
+
+                return reject(result);
+            }
+            return resolve(result);
+        });
+    });
+}
+const res = {
+    status: (statusCode) => ({
+        json: (data) => ({ statusCode, ...data })
+    }),
+    end: () => { }
+
+};
 export async function GET(req) {
     try {
-       
+        await runMiddleware(req, res, isAuthenticatedUser);
         dbConnect()
         let query = await req.nextUrl.searchParams;
         let id = query?.get("id")

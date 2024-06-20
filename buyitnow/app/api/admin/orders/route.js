@@ -28,6 +28,7 @@ export async function GET(req) {
         await runMiddleware(req, res, isAuthenticatedUser);
         await runMiddleware(req, res, authorizeRoles("admin"));
         dbConnect()
+        console.log(req)
         const query = await req.nextUrl.searchParams;
         let skip = query.get("page") || 0;
         const resPerPage = 10;

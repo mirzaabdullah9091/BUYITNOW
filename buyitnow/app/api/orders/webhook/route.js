@@ -6,11 +6,7 @@ import order from "@/Backend/models/order";
 
 const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY);
 
-export const config = {
-    api: {
-        bodyParser: false
-    }
-}
+
 
 async function getCartItems(line_items) {
     return new Promise((resolve, reject) => {

@@ -5,11 +5,7 @@ import { destorys, uploads } from "@/Backend/utils/cloudinary";
 import { isAuthenticatedUser } from "@/Backend/middlewares/auth";
 
 
-export const config = {
-    api: {
-        bodyParser: false,
-    },
-};
+
 
 const runMiddleware = (req, res, fn) => {
 
