@@ -28,19 +28,19 @@ export async function GET(req) {
         await runMiddleware(req, res, isAuthenticatedUser);
         dbConnect()
         const query = await req.nextUrl.searchParams;
-        let skip = query.get("page") || 0;
+        let skip = query.get("page") || 1;
         const resPerPage = 2;
         let skipped = resPerPage * (skip - 1)
-        
-     
-        const orderCount = await order.countDocuments({user:req.user._id});
-       
-        const orders = await order.find({ user: req.user._id }).limit(resPerPage).skip(skipped).populate("user shippingInfo")
+
+
+        const orderCount = await order.countDocuments({ user: req?.user?._id });
+
+        const orders = await order.find({ user: req?.user?._id }).limit(resPerPage).skip(skipped).populate("user shippingInfo")
         // console.log(orders)
-        if(!orders)
+        if (orders.length < 1)
             throw new Error("Nothing found!")
-        return NextResponse.json({orders, resPerPage, orderCount })
+        return NextResponse.json({ orders, resPerPage, orderCount })
     } catch (error) {
-        return NextResponse.json({msg:error.message, success:false},{status:error.statusCode})
+        return NextResponse.json({ msg: error.message, success: false }, { status: error.statusCode })
     }
 }

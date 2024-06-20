@@ -19,8 +19,9 @@ async function CanReview(id){
     let nextCookies =  cookies();
   const nextAuthSessionToken = nextCookies.get("next-auth.session-token")
 
-    let res = await axios.get(`${process.env.HOST_URL}/api/orders/can_review?productId=${id}`,
-    { headers:{
+    let res = await axios.get(`${process.env.HOST_URL}/api/orders/can_review/${id}`,
+    {
+         headers:{
         Cookie: `next-auth.session-token=${nextAuthSessionToken?.value}`,
       }
     })

@@ -1,3 +1,4 @@
+
 import { NextResponse } from "next/server";
 import dbConnect from "@/Backend/Config/dbConnet";
 import { isAuthenticatedUser } from "@/Backend/middlewares/auth";
@@ -28,13 +29,12 @@ const res = {
 export async function GET(req){
     try{
         dbConnect()
-        // await runMiddleware(req, res, isAuthenticatedUser);
-        const query = await req.nextUrl.searchParams;
-        const id = query?.get("productId");
-        console.log(id)
+        await runMiddleware(req, res, isAuthenticatedUser);
+        let id = req.url.split("/")
+        // console.log(id)
         const orders = await order.find({
             user: req?.user?._id,
-            "orderItems.product": id,
+            "orderItems.product": id[id.length-1],
           });
         // console.log(orders)
        if(orders.length < 1){

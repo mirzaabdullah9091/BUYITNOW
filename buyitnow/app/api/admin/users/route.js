@@ -28,7 +28,7 @@ export async function GET(req) {
         await runMiddleware(req, res, authorizeRoles("admin"));
         dbConnect();
         const query = await req.nextUrl.searchParams;
-        let skip = query.get("page") || 0;
+        let skip = query.get("page") || 1;
        
         let userCount = await user.countDocuments();
         let resPerPage = 5;

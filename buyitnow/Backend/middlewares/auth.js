@@ -22,7 +22,7 @@ const authorizeRoles = (...roles) => {
     return(req, res, next) => {
         // console.log(roles)
         if(!roles.includes(req?.user?.role)){
-            return next(new ErrorHandler(`Role (${req?.user?.role}) is not allowed to access this route.`))
+            return next(new ErrorHandler(`Role (${req?.user?.role}) is not allowed to access this route.`, 401))
         }
         next();
     }

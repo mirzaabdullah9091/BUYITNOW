@@ -1,9 +1,7 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { isAuthenticatedUser } from "@/Backend/middlewares/auth";
-import { Currency } from "lucide-react";
-import product from "@/Backend/models/product";
-import { metadata } from "@/app/layout";
+
 
 const runMiddleware = (req, res, fn) => {
     return new Promise((resolve, reject) => {
@@ -31,7 +29,7 @@ export async function POST(req) {
         await runMiddleware(req, res, isAuthenticatedUser);
         const body = await req.json();
         // console.log(body, req.user)
-        const shippingInfo = body.shippingInfo;
+        const shippingInfo = body?.shippingInfo;
         const line_items = body?.items?.map((items)=>{
             return {
                 price_data:{

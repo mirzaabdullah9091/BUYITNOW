@@ -6,7 +6,7 @@ import BreadCrumbs from '../layouts/BreadCrumbs'
 // import { cookies } from 'next/headers'
 import CartContext from '@/context/CartContext'
 import NewReview from '../review/NewReview'
-import axios from 'axios'
+
 import Reviews from '../review/Reviews'
 const Productdetails = ({product, CanReview}) => {
   const {addItemToCart} = useContext(CartContext)
@@ -40,7 +40,6 @@ const Productdetails = ({product, CanReview}) => {
 
 useEffect(()=>{
   isUserReview()
-  
   
 },[])
  

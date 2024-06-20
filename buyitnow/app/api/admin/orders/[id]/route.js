@@ -33,7 +33,7 @@ export async function GET(req) {
        
         const orders = await order.findById(id[id.length-1]).populate("user shippingInfo")
 // console.log(orders)
-        if(!orders)
+        if(orders.length < 1)
             return  NextResponse.json({msg:"No order found against this ID ", success:false},{status:404})
             
         return NextResponse.json({ orders })

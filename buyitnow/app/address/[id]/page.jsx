@@ -20,7 +20,7 @@ const getAddress = async(id) =>{
 const page = async({params}) => {
  
   let address = await  getAddress(params?.id)
-  // console.log(addresses)
+  // console.log("address",address)
   return (
     <div>
       <UpdateAddress id={params?.id} address={address}/>

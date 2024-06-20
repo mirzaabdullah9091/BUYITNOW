@@ -75,3 +75,23 @@ export async function GET(req) {
     }
 
 }
+
+export async function DELETE(req) {
+    try {
+        const res = new NextResponse();
+        await runMiddleware(req, res, isAuthenticatedUser);
+        dbConnect()
+        let query = await req.nextUrl.searchParams;
+        let id = query?.get("id")
+        console.log(" Delete Adreess")
+        let deletedAddress = await address.findByIdAndDelete(id)
+        if (!deletedAddress) {
+            throw new Error("There is no address to delete")
+        }
+        
+        return NextResponse.json({ success: true, msg: "Address deleted successfully" })
+       } catch (error) {
+        console.error("Error during address deletion:", error.message);
+        return NextResponse.json({ success: false, msg: error.message }, { status: error.statusCode });
+    }
+}

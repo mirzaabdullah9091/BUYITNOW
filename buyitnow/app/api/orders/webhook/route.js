@@ -5,15 +5,12 @@ import order from "@/Backend/models/order";
 
 
 const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY);
-
-
-
 async function getCartItems(line_items) {
     return new Promise((resolve, reject) => {
         let cartItems = [];
         line_items?.data?.forEach(async (item) => {
-            const product = await stripe.products.retrieve(item.price.product)
-            const productId = product.metadata.productId;
+            const product = await stripe?.products.retrieve(item.price.product)
+            const productId = product?.metadata.productId;
             cartItems.push({
                 product: productId,
                 name: product.name,
@@ -33,7 +30,7 @@ export async function POST(req) {
         dbConnect();
         const rawBody = await req.text();
     const headersList = req.headers;
-    const signature = headersList.get("stripe-signature");
+    const signature = headersList?.get("stripe-signature");
 
         const event = stripe.webhooks.constructEvent(
             rawBody,
@@ -48,18 +45,18 @@ export async function POST(req) {
             )
 
             const orderItems = await getCartItems(line_items)
-            const userId = session.client_reference_id;
-            const amountPaid = session.amount_total / 100
+            const userId = session?.client_reference_id;
+            const amountPaid = session?.amount_total / 100
             const paymentInfo = {
-                id: session.payment_intent,
-                status : session.payment_status,
+                id: session?.payment_intent,
+                status : session?.payment_status,
                 amountPaid,
                 taxPaid: session?.total_details.amount_tax / 100
             }
 
             const orderData = {
                 user : userId,
-                shippingInfo : session.metadata.shippingInfo,
+                shippingInfo : session?.metadata.shippingInfo,
                 paymentInfo,
                 orderItems
             }

@@ -4,7 +4,7 @@ import product from "@/Backend/models/product";
 export async function GET(request) {
     dbConnect()
     let data = await request.nextUrl.searchParams
-    let id = data.get("id")
+    let id = data?.get("id")
     if(!id){
         throw new Error("Something went wrong")
     }
@@ -16,7 +16,7 @@ export async function GET(request) {
         }
         return NextResponse.json({success:true, msg:"done", product:getproduct},{status:200})
     } catch (error) {
-        return NextResponse.json({success:false, msg:"Not done", error:error},{status:404})
+        return NextResponse.json({success:false, msg:"Not done", error:error.message},{status:404})
     }
     
   

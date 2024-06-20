@@ -4,6 +4,7 @@ import order from '@/Backend/models/order';
 import { authorizeRoles, isAuthenticatedUser } from "@/Backend/middlewares/auth";
 
 
+
 const runMiddleware = (req, res, fn) => {
 
     return new Promise((resolve, reject) => {
@@ -16,33 +17,29 @@ const runMiddleware = (req, res, fn) => {
         });
     });
 }
-const res = {
-    status: (statusCode) => ({
-        json: (data) => ({ statusCode, ...data })
-    }),
-    end: () => { }
 
-};
 export async function GET(req) {
     try {
+        const res = new NextResponse()
         await runMiddleware(req, res, isAuthenticatedUser);
         await runMiddleware(req, res, authorizeRoles("admin"));
+       
         dbConnect()
-        console.log(req)
+        // console.log(req)
         const query = await req.nextUrl.searchParams;
-        let skip = query.get("page") || 0;
+        let skip = query.get("page") || 1;
         const resPerPage = 10;
         let skipped = resPerPage * (skip - 1)
-    
+    // console.log(skipped)
      
         const orderCount = await order.countDocuments();
        
         const orders = await order.find().limit(resPerPage).skip(skipped).populate("user shippingInfo")
         // console.log(orders)
-        if(!orders)
+        if(!orders || orders.length < 1)
             throw new Error("Nothing found!")
-        return NextResponse.json({orders, resPerPage, orderCount })
+        return  NextResponse.json({orders, resPerPage, orderCount })
     } catch (error) {
-        return NextResponse.json({msg:error.message, success:false},{status:error.statusCode})
+        return new NextResponse.json({msg:error.message, success:false},{status:error.statusCode})
     }
 }

@@ -31,7 +31,7 @@ export async function POST(request) {
         await runMiddleware(request, res, authorizeRoles('admin'));
 
         let data = await request.json()
-        data.user = request.user._id;
+        data.user = request?.user._id;
         console.log(data)
         if (!data) {
             throw new Error("Please provide valid information")

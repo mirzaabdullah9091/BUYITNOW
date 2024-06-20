@@ -1,14 +1,14 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/Backend/Config/dbConnet";
 import product from "@/Backend/models/product";
-import queryString from "query-string";
+
 
 export async function GET(request) {
     dbConnect()
     let data = await request.nextUrl.searchParams
     let filters = data.get("filters");
     let limit = data.get("limit") || 2;
-    let skip = data.get("page") || 0;
+    let skip = data.get("page") || 1;
     let skipped = limit * (skip - 1)
     var FilterApply  = {};
     // console.log(skipped)
@@ -44,16 +44,16 @@ export async function GET(request) {
     }
     // console.log(FilterApply)
     try {
-        let getproduct = await product.find(FilterApply).limit(limit).skip(skipped)
+        let getproduct = await product.find(FilterApply).limit(1).skip(1)
         // console.log(getproduct)
-        if(!getproduct)
+        if(getproduct.length < 1)
             throw new Error("Book not found!")
         let documents = await product.countDocuments(FilterApply)
         // console.log(documents)
        
         return NextResponse.json({success:true, products:getproduct, CountedProducts:documents, resPerPage: limit})
     } catch (error) {
-        return NextResponse.json({success:false, error:error},{status:404})
+        return NextResponse.json({success:false, error:error.message},{status:404})
     }
     
     

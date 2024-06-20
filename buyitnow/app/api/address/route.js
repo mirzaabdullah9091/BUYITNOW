@@ -71,12 +71,13 @@ export async function GET(req) {
     try {
         await runMiddleware(req, res, isAuthenticatedUser);
         dbConnect()
+        // console.log("user",req.user)
         let user = req?.user._id;
         // console.log(req.user)
         let Addresses = await address.find({user})
         // console.log(Addresses)
       
-        if (!Addresses)
+        if (Addresses.length<1)
             throw new Error("There is no address")
         return NextResponse.json({ success: true, msg: "Done", Addresses: Addresses })
     } catch (error) {

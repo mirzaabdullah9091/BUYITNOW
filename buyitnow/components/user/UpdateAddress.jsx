@@ -21,11 +21,12 @@ const UpdateAddress = ({id, address}) => {
   const [zipCode, setZipCode] = useState(address?.zipCode);
   const [phoneNo, setPhonoNo] = useState(address?.phoneNo);
   const [country, setCountry] = useState(address?.country);
- 
+ const [loader,setLoader] = useState(false)
     
   const delAddress = async() => {
-    console.log("object")
-    await axios.get(`${process.env.HOST_URL}/api/address/deleteAddress?id=${id}`)
+    // console.log("object")
+    setLoader(true)
+    await axios.delete(`${process.env.HOST_URL}/api/address/updateAddress?id=${id}`)
     .then((res)=>{
         if(res.data.success){
             router.push("/me")

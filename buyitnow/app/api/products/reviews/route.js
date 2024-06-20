@@ -29,17 +29,19 @@ const res = {
 export async function PUT(req) {
     
     try {
-        await runMiddleware(req, res, isAuthenticatedUser);
+        // await runMiddleware(req, res, isAuthenticatedUser);
         dbConnect();
         let data = await req.json()
-     
+        if(!data){
+            throw new Error("Nothing found in comment")
+        }
         const review = {
-            user : data.productId,
-            rating : Number(data.rating),
-            comment: data.comment
+            user : data?.productId,
+            rating : Number(data?.rating),
+            comment: data?.comment
 
         }
-        const productFound  = await product.findById(data.productId)
+        const productFound  = await product.findById(data?.productId)
         if(!productFound){
             return NextResponse.json({
                 success: false,
