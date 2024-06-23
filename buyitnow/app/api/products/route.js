@@ -44,16 +44,17 @@ export async function GET(request) {
     }
     // console.log(FilterApply)
     try {
-        let getproduct = await product.find(FilterApply).limit(1).skip(1)
+        let getproduct = await product.find(FilterApply).limit(limit).skip(skipped)
         // console.log(getproduct)
         if(getproduct.length < 1)
-            throw new Error("Book not found!")
+            return NextResponse.json({success:false})
         let documents = await product.countDocuments(FilterApply)
         // console.log(documents)
        
         return NextResponse.json({success:true, products:getproduct, CountedProducts:documents, resPerPage: limit})
     } catch (error) {
-        return NextResponse.json({success:false, error:error.message},{status:404})
+        console.log(error)
+        return NextResponse.json({success:false, error:error.message},{status:error.statusCode || 500})
     }
     
     

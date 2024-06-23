@@ -3,7 +3,8 @@ import "./globals.css";
 import Header from "@/components/layouts/Header";
 import CartProvider from "./CartProvider";
 import { AuthProvider } from "./Provider";
-import UserProvider from "./UserProvider";
+import { SpeedInsights } from "@vercel/speed-insights/next"
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -16,12 +17,13 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <AuthProvider>
-        <UserProvider>
+        
         <CartProvider>
         <Header/>
         {children}
+        <SpeedInsights />
         </CartProvider>
-        </UserProvider>
+   
         </AuthProvider>
         </body>
     </html>

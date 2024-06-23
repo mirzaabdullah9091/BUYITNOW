@@ -80,6 +80,7 @@ export async function DELETE(request){
     }
   
     let deletedOrder  = await order.findByIdAndDelete(id[id.length - 1])
+  
     if(!deletedOrder){
         throw new Error("Error in deleting order. Please try agauin later")
     }

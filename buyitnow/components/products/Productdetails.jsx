@@ -1,5 +1,5 @@
 'use client'
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import StarRatings from 'react-star-ratings'
 import Image from 'next/image'
 import BreadCrumbs from '../layouts/BreadCrumbs'
@@ -8,9 +8,9 @@ import CartContext from '@/context/CartContext'
 import NewReview from '../review/NewReview'
 
 import Reviews from '../review/Reviews'
-const Productdetails = ({product, CanReview}) => {
+const Productdetails = ({product}) => {
   const {addItemToCart} = useContext(CartContext)
-  const[canreview, setCanreview] =useState()
+ 
     const imgref= useRef(null)
     function setImgPrev(url){
         imgref.current.src = url;
@@ -38,15 +38,7 @@ const Productdetails = ({product, CanReview}) => {
         }
     ]
 
-useEffect(()=>{
-  isUserReview()
-  
-},[])
  
-async function isUserReview(){
-  let userReview = await CanReview(product._id)
-  setCanreview(userReview || false)
-}  
   return (
    <>
    <BreadCrumbs breadCrumb={breadCrumbs}/>
@@ -63,9 +55,10 @@ async function isUserReview(){
              />
             </div>
             <div className='space-x-2 overflow-auto text-center whitespace-nowrap' >
-                {product?.images?.map((img)=>{
+                {product?.images?.map((img,index)=>{
                     return<>
                     <a  
+                    key={index}
                     onClick={()=> setImgPrev(img?.url)}
                     className='inline-block border border-gray-200 p-1 rounded-md hover:border-blue-500 cursor-pointer'>
                     <Image 
@@ -149,7 +142,7 @@ async function isUserReview(){
             </main>
           </div>
 
-         {canreview && <NewReview product={product} />} 
+      <NewReview product={product} /> 
           <hr />
           
 

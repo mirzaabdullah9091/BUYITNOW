@@ -32,13 +32,13 @@ export async function POST(request) {
 
         let data = await request.json()
         data.user = request?.user._id;
-        console.log(data)
+        // console.log(data)
         if (!data) {
             throw new Error("Please provide valid information")
 
         }
         let newproduct = await product.create(data)
-        console.log(newproduct)
+        // console.log(newproduct)
         if(!newproduct){
             throw new Error("Error in storing product",{status:400})
         }

@@ -2,7 +2,8 @@
 const nextConfig = {
     env:{
         DB_URI:"mongodb+srv://abdullahmirza9091:HondaCivic1459@abdullah.4xyfsua.mongodb.net/BUYITNOW",
-        HOST_URL:"http://localhost:3000/",
+        // HOST_URL:"https://buyitnow-nine.vercel.app",
+        HOST_URL:"http://localhost:3000",
         NEXTAUTH_SECRET:"hondacivicxisshaper",
         CLOUD_NAME:"diaxgbf6t",
         CLOUDINARY_API_KEY:"486687464557189",
@@ -14,7 +15,7 @@ const nextConfig = {
     images: {
         domains: ["res.cloudinary.com"],
       },
-      staticPageGenerationTimeout: 120, // Increase timeout to 120 seconds
+      staticPageGenerationTimeout: 60, // Increase timeout to 120 seconds
       async headers() {
           return [
               {

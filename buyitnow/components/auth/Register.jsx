@@ -3,13 +3,13 @@ import axios from 'axios';
 import React, { useContext, useState } from 'react'
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import UserContext from '@/context/UserContext';
+
 const Register = () => {
-    const {setUser} = useContext(UserContext)
+
     const router = useRouter()
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
-    const [name, setName] = useState();
+    const [email, setEmail] = useState(null);
+    const [password, setPassword] = useState(null);
+    const [name, setName] = useState(null);
 
     const submitHandler = async(e) => {
         e.preventDefault();
@@ -18,7 +18,6 @@ const Register = () => {
           .then((res)=>{
             if(res.data.success)
                 if(res.data.payload)
-                    setUser(res.data.payload)
                 router.push("/")
           }).catch((err)=>{
             console.log(err)

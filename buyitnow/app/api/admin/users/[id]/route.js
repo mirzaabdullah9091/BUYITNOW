@@ -55,7 +55,7 @@ export async function PUT(req){
         if(!users)
             return  NextResponse.json({msg:"No user found against this ID ", success:false},{status:404})
         const updatedUser = await user.findByIdAndUpdate(id[id.length-1], userData )
-        console.log(updatedUser)
+        // console.log(updatedUser)
         if(!updatedUser)
             return  NextResponse.json({msg:"failed to update user ", success:false},{status:500})
         

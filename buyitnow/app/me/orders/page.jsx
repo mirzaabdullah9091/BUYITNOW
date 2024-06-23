@@ -3,16 +3,17 @@ import React from 'react'
 import axios from 'axios'
 import { cookies } from 'next/headers'
 import ListOrders from '@/components/orders/ListOrders';
+import { getCookieName } from '@/helpers/helper';
 
 const getOrders = async (page) => {
 
     let nextCookies = cookies();
-    const nextAuthSessionToken = nextCookies.get("next-auth.session-token")
-
+    const cookiesname = getCookieName()
+    const nextAuthSessionToken = nextCookies.get(cookiesname)
 
     const { data } = await axios.get(`${process.env.HOST_URL}/api/orders/myorders?page=${page}`, {
         headers: {
-            Cookie: `next-auth.session-token=${nextAuthSessionToken?.value}`,
+            Cookie: `${nextAuthSessionToken?.name}=${nextAuthSessionToken?.value}`,
         }
     })
     return data

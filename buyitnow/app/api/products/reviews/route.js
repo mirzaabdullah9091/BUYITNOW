@@ -29,7 +29,7 @@ const res = {
 export async function PUT(req) {
     
     try {
-        // await runMiddleware(req, res, isAuthenticatedUser);
+        await runMiddleware(req, res, isAuthenticatedUser);
         dbConnect();
         let data = await req.json()
         if(!data){

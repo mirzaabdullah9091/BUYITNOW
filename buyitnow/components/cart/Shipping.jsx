@@ -21,7 +21,7 @@ const router = useRouter()
   const checkoutHandler = async () => {
     console.log("object")
     if (!shippingInfo) {
-      console.log("Please select your shipping address")
+      // console.log("Please select your shipping address")
     } else{
       await axios.post(`${process.env.HOST_URL}/api/orders/checkout`,
       {

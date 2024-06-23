@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -36,6 +36,7 @@ const Login = () => {
   };
 
   return (
+
     <div
       style={{ maxWidth: "480px" }}
       className="mt-10 mb-20 p-4 md:p-7 mx-auto rounded bg-white shadow-lg"
@@ -78,13 +79,14 @@ const Login = () => {
         <hr className="mt-4" />
 
         <p className="text-center mt-5">
-          Don't have an account?{" "}
+          Don't have an account?
           <Link href="/register" className="text-blue-500">
             Register
           </Link>
         </p>
       </form>
     </div>
+
   );
 };
 
